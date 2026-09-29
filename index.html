@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Detektif Dunia Maya — LKPD Informatika Kelas 8</title>
+<meta name="description" content="LKPD Interaktif Informatika Kelas 8 — Jejak Digital, Privasi, Keamanan, dan Anti-Phishing. SMP Negeri 19 Kota Bekasi." />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- === HEADER: ganti logo di sini === -->
+<header class="top-bar">
+  <div class="brand">
+    <img src="logo.png" alt="Logo SMP Negeri 19 Kota Bekasi" class="brand-logo"
+         onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';" />
+    <div id="logo-fallback" class="brand-logo-fallback" style="display:none">SMPN<br/>19</div>
+    <div class="brand-text">
+      <div class="brand-title">DETEKTIF DUNIA MAYA</div>
+      <div class="brand-sub">Cyber Detective · LKPD Informatika Kelas 8</div>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="score-chip" id="score-chip" aria-live="polite">⭐ 0</div>
+    <button class="ctrl-btn" id="btn-lang" aria-label="Ganti Bahasa / Change Language">🇮🇩 ID</button>
+    <button class="ctrl-btn" id="btn-sound" aria-label="Suara On/Off">🔊</button>
+    <button class="ctrl-btn" id="btn-theme" aria-label="Ganti Tema">🌙</button>
+  </div>
+</header>
+
+<!-- === PROGRESS BAR === -->
+<div class="progress-wrap" id="progress-wrap" aria-hidden="true">
+  <div class="progress-info">
+    <span id="progress-label">Level 0 / 5</span>
+    <span id="progress-player">—</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<main id="app">
+
+  <!-- === SCREEN 0: SPLASH === -->
+  <section class="screen active" id="screen-0">
+    <div class="hero">
+      <div class="hero-badge">🕵️‍♂️ LKPD INTERAKTIF · INTERACTIVE WORKSHEET</div>
+      <h1 class="hero-title">
+        DETEKTIF<br/><span class="accent">DUNIA MAYA</span>
+      </h1>
+      <p class="hero-sub">
+        Jejak Digital, Privasi, Keamanan, dan Anti-Phishing<br/>
+        <em>Digital Footprint, Privacy, Security, and Anti-Phishing</em>
+      </p>
+      <div class="hero-cards">
+        <div class="mini-card">🔍 Level 1<br/>Jejak Digital<br/><small>Digital Footprint</small></div>
+        <div class="mini-card">🚨 Level 2<br/>Oversharing<br/><small>Berbagi Berlebihan</small></div>
+        <div class="mini-card">🔐 Level 3<br/>Password Builder<br/><small>Pembuat Kata Sandi</small></div>
+        <div class="mini-card">🎣 Level 4<br/>Phishing Detector<br/><small>Detektor Pengelabuan</small></div>
+        <div class="mini-card">🆘 Level 5<br/>Darurat Akun<br/><small>Account Emergency</small></div>
+      </div>
+      <button class="btn btn-primary btn-lg" id="btn-start">🚀 Mulai Misi / Start Mission</button>
+      <p class="hero-foot">
+        <strong>SMP Negeri 19 Kota Bekasi</strong> · Tahun Ajaran 2026 / 2027<br/>
+        <small>Modul: MATERI_K8P14_GANJIL · Problem Based Learning (PBL)</small>
+      </p>
+    </div>
+  </section>
+
+  <!-- === SCREEN 1: INPUT NAMA & KELOMPOK === -->
+  <section class="screen" id="screen-1">
+    <div class="card card-narrow">
+      <h2 class="card-title">🪪 Identitas Detektif / Detective Identity</h2>
+      <p class="card-note">Isi nama dan kelompokmu dulu, ya! <em>(Fill in your name and group first!)</em></p>
+      <label class="field">
+        <span>Nama Detektif / Detective Name</span>
+        <input type="text" id="input-nama" maxlength="30" placeholder="Contoh: Rani" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>Kelompok / Group</span>
+        <input type="text" id="input-kelompok" maxlength="20" placeholder="Contoh: Kelompok 3" autocomplete="off" />
+      </label>
+      <button class="btn btn-primary btn-lg" id="btn-identity">✅ Simpan & Lanjut / Save & Continue</button>
+      <p class="error-text" id="identity-error"></p>
+    </div>
+  </section>
+
+  <!-- === SCREEN 2: MISSION MAP === -->
+  <section class="screen" id="screen-2">
+    <div class="card">
+      <h2 class="card-title">🗺️ Peta Misi / Mission Map</h2>
+      <p class="card-note">Selesaikan 5 misi untuk menyelamatkan temanmu. <em>(Complete 5 missions to save your friend.)</em></p>
+      <div class="mission-grid" id="mission-grid"></div>
+      <button class="btn btn-primary btn-lg" id="btn-see-result" disabled>🏁 Lihat Hasil / See Results</button>
+    </div>
+  </section>
+
+  <!-- === SCREEN 3: LEVEL 1 === -->
+  <section class="screen" id="screen-3">
+    <div class="card">
+      <div class="level-head">
+        <div class="level-tag">LEVEL 1</div>
+        <h2 class="card-title">🔍 Jejak Digital / <em>Digital Footprint</em></h2>
+        <button class="btn btn-ghost" data-open-material="l1">📚 Baca Materi / Read</button>
+      </div>
+      <p class="card-note">Klasifikasikan perilaku berikut: <b>Jejak Aktif</b> (<em>Active Footprint</em>) atau <b>Jejak Pasif</b> (<em>Passive Footprint</em>)?</p>
+      <div class="counter" id="l1-counter">Kartu 1 / 10</div>
+      <div class="question-card" id="l1-question">—</div>
+      <div class="answer-row" id="l1-answers">
+        <button class="btn btn-answer" data-ans="aktif">🟢 Jejak Aktif / Active</button>
+        <button class="btn btn-answer" data-ans="pasif">🔵 Jejak Pasif / Passive</button>
+      </div>
+      <button class="btn btn-primary" id="l1-next" style="display:none">➡️ Lanjut / Next</button>
+    </div>
+  </section>
+
+  <!-- === SCREEN 4: LEVEL 2 === -->
+  <section class="screen" id="screen-4">
+    <div class="card">
+      <div class="level-head">
+        <div class="level-tag">LEVEL 2</div>
+        <h2 class="card-title">🚨 Oversharing Alert</h2>
+        <button class="btn btn-ghost" data-open-material="l2">📚 Baca Materi / Read</button>
+      </div>
+      <p class="card-note">Amati postingan ini. Apakah <b>Aman</b> atau <b>Berisiko</b>? Kalau berisiko, pilih alasannya.</p>
+      <div class="counter" id="l2-counter">Post 1 / 8</div>
+      <div class="post-card" id="l2-post">—</div>
+      <div class="answer-row" id="l2-answers">
+        <button class="btn btn-answer" data-ans="aman">✅ Aman / Safe</button>
+        <button class="btn btn-answer" data-ans="berisiko">⚠️ Berisiko / Risky</button>
+      </div>
+      <div class="reason-box" id="l2-reasons" style="display:none">
+        <label class="field">
+          <span>Alasan / Reason</span>
+          <select id="l2-reason-select"></select>
+        </label>
+        <button class="btn btn-primary" id="l2-confirm">Konfirmasi / Confirm</button>
+      </div>
+      <button class="btn btn-primary" id="l2-next" style="display:none">➡️ Lanjut / Next</button>
+    </div>
+  </section>
+
+  <!-- === SCREEN 5: LEVEL 3 === -->
+  <section class="screen" id="screen-5">
+    <div class="card">
+      <div class="level-head">
+        <div class="level-tag">LEVEL 3</div>
+        <h2 class="card-title">🔐 Password Builder</h2>
+        <button class="btn btn-ghost" data-open-material="l3">📚 Baca Materi / Read</button>
+      </div>
+      <p class="card-note">Bangun password yang <b>KUAT</b> (min. 12 karakter, campur huruf besar-kecil, angka, simbol). <em>(Build a STRONG password.)</em></p>
+      <div class="password-display" id="pw-display">_</div>
+      <div class="pw-meta">
+        <div>Panjang / Length: <b id="pw-len">0</b></div>
+        <div>Kekuatan / Strength: <b id="pw-strength">—</b></div>
+      </div>
+      <div class="strength-bar"><div class="strength-fill" id="pw-strength-fill"></div></div>
+      <div class="char-palette">
+        <div class="palette-group">
+          <div class="palette-label">abc</div>
+          <div class="palette-buttons" id="pal-lower"></div>
+        </div>
+        <div class="palette-group">
+          <div class="palette-label">ABC</div>
+          <div class="palette-buttons" id="pal-upper"></div>
+        </div>
+        <div class="palette-group">
+          <div class="palette-label">123</div>
+          <div class="palette-buttons" id="pal-digit"></div>
+        </div>
+        <div class="palette-group">
+          <div class="palette-label">!@#</div>
+          <div class="palette-buttons" id="pal-symbol"></div>
+        </div>
+      </div>
+      <div class="pw-actions">
+        <button class="btn btn-ghost" id="pw-backspace">⌫ Hapus</button>
+        <button class="btn btn-ghost" id="pw-clear">🗑️ Bersihkan / Clear</button>
+        <button class="btn btn-primary" id="pw-lock">🔒 Kunci Password / Lock</button>
+      </div>
+      <div class="twofa" id="twofa-box" style="display:none">
+        <h3>📲 Aktifkan 2FA (Two-Factor Authentication / Verifikasi Dua Langkah)</h3>
+        <p class="card-note">Klik tombol di bawah, lalu masukkan 6 digit kode yang muncul di layar simulasi SMS.</p>
+        <button class="btn btn-primary" id="btn-send-otp">📨 Kirim Kode OTP / Send OTP Code</button>
+        <div class="otp-sim" id="otp-sim" style="display:none">
+          <div class="otp-bubble">📩 SMS masuk: Kode OTP-mu adalah <b id="otp-code">842197</b> (berlaku 2 menit)</div>
+          <input type="text" id="otp-input" maxlength="6" placeholder="Contoh: 842197" inputmode="numeric" />
+          <button class="btn btn-primary" id="btn-verify-otp">✔️ Verifikasi / Verify</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === SCREEN 6: LEVEL 4 === -->
+  <section class="screen" id="screen-6">
+    <div class="card">
+      <div class="level-head">
+        <div class="level-tag">LEVEL 4</div>
+        <h2 class="card-title">🎣 Phishing Detector</h2>
+        <button class="btn btn-ghost" data-open-material="l4">📚 Baca Materi / Read</button>
+      </div>
+      <p class="card-note">Tentukan: <b>Aman</b> / <b>Berisiko</b> / <b>Phishing</b>? <em>(Safe / Risky / Phishing?)</em></p>
+      <div class="counter" id="l4-counter">Skenario 1 / 5</div>
+      <div class="post-card" id="l4-scenario">—</div>
+      <div class="answer-row triple" id="l4-answers">
+        <button class="btn btn-answer" data-ans="aman">✅ Aman / Safe</button>
+        <button class="btn btn-answer" data-ans="berisiko">⚠️ Berisiko / Risky</button>
+        <button class="btn btn-answer" data-ans="phishing">🎣 Phishing</button>
+      </div>
+      <button class="btn btn-primary" id="l4-next" style="display:none">➡️ Lanjut / Next</button>
+      <div class="phishing-traits" id="l4-traits" style="display:none">
+        <h3>🔎 5 Ciri Umum Phishing / 5 Common Phishing Traits:</h3>
+        <ul>
+          <li>⏰ Menciptakan rasa mendesak (<em>creating urgency</em>) — "segera klik", "akun diblokir 1 jam"</li>
+          <li>🎁 Menjanjikan hadiah terlalu bagus (<em>too-good-to-be-true prize</em>)</li>
+          <li>🔗 Alamat pengirim/tautan aneh (<em>suspicious sender/link</em>)</li>
+          <li>✏️ Banyak kesalahan ketik/tata bahasa (<em>typos &amp; grammar errors</em>)</li>
+          <li>🔑 Meminta data rahasia lewat pesan (<em>asking for passwords/OTP</em>)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- === SCREEN 7: LEVEL 5 === -->
+  <section class="screen" id="screen-7">
+    <div class="card">
+      <div class="level-head">
+        <div class="level-tag">LEVEL 5</div>
+        <h2 class="card-title">🆘 Darurat! Akun Diretas / Account Emergency</h2>
+        <button class="btn btn-ghost" data-open-material="l5">📚 Baca Materi / Read</button>
+      </div>
+      <p class="card-note">Urutkan 5 langkah penyelamatan akun yang benar. Klik berurutan dari langkah 1 sampai 5. <em>(Order the 5 correct steps.)</em></p>
+      <div class="counter" id="l5-counter">Dipilih: 0 / 5</div>
+      <div class="steps-list" id="l5-steps"></div>
+      <div class="pw-actions">
+        <button class="btn btn-ghost" id="l5-reset">🔄 Ulang Urutan / Reset</button>
+        <button class="btn btn-primary" id="l5-check">✔️ Periksa / Check</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- === SCREEN 8: HASIL AKHIR === -->
+  <section class="screen" id="screen-8">
+    <div class="card">
+      <h2 class="card-title">🏁 Hasil Akhir / Final Results</h2>
+      <div class="badge-box" id="badge-box">
+        <div class="badge-icon" id="badge-icon">🏆</div>
+        <div class="badge-title" id="badge-title">Detektif Utama</div>
+        <div class="badge-sub" id="badge-sub">Master Detective</div>
+      </div>
+      <div class="score-box">
+        <div class="score-final" id="score-final">0</div>
+        <div class="score-max">dari <span id="score-max">520</span> poin</div>
+        <div class="score-pct" id="score-pct">0%</div>
+      </div>
+      <h3 class="sub-title">📊 Skor per Level / Score per Level</h3>
+      <div class="score-table" id="score-table"></div>
+
+      <h3 class="sub-title">✅ Checklist Keamanan Digital / Digital Safety Checklist</h3>
+      <p class="card-note">Centang yang sudah kamu lakukan. <em>(Check what you already do.)</em></p>
+      <div class="checklist" id="final-checklist">
+        <label><input type="checkbox" data-ck="c1" /> Password akun pentingku berbeda-beda dan tidak mudah ditebak</label>
+        <label><input type="checkbox" data-ck="c2" /> Verifikasi dua langkah aktif di akun email/media sosial utama</label>
+        <label><input type="checkbox" data-ck="c3" /> Aku tidak membagikan lokasi real-time, jadwal harian rinci, atau dokumen identitas</label>
+        <label><input type="checkbox" data-ck="c4" /> Aku memeriksa alamat pengirim/tautan sebelum mengklik</label>
+        <label><input type="checkbox" data-ck="c5" /> Aku tahu langkah yang harus diambil jika akun diretas</label>
+      </div>
+
+      <h3 class="sub-title">🏅 Papan Peringkat Lokal / Local Leaderboard</h3>
+      <div class="leaderboard" id="leaderboard"></div>
+
+      <div class="pw-actions">
+        <button class="btn btn-primary" id="btn-to-reflect">📝 Lanjut Refleksi / Reflect</button>
+        <button class="btn btn-ghost" id="btn-restart">🔄 Main Ulang / Restart</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- === SCREEN 9: REFLEKSI === -->
+  <section class="screen" id="screen-9">
+    <div class="card">
+      <h2 class="card-title">📝 Refleksi / Reflection</h2>
+      <p class="card-note">Jawab dengan jujur, ya! <em>(Answer honestly!)</em></p>
+      <label class="field">
+        <span>1. Apa hal baru yang aku pahami tentang menjaga keamanan di dunia digital?</span>
+        <textarea id="ref-1" rows="3" placeholder="Tulis di sini..."></textarea>
+      </label>
+      <label class="field">
+        <span>2. Bagian mana yang paling membuka mataku?</span>
+        <textarea id="ref-2" rows="3" placeholder="Tulis di sini..."></textarea>
+      </label>
+      <label class="field">
+        <span>3. Kebiasaan apa yang akan aku ubah mulai hari ini?</span>
+        <textarea id="ref-3" rows="3" placeholder="Tulis di sini..."></textarea>
+      </label>
+      <div class="pw-actions">
+        <button class="btn btn-primary" id="btn-save-reflect">💾 Simpan Refleksi / Save</button>
+        <button class="btn btn-ghost" id="btn-download-reflect">⬇️ Unduh .txt / Download</button>
+        <button class="btn btn-ghost" id="btn-to-cert">🎖️ Sertifikat / Certificate</button>
+      </div>
+      <p class="success-text" id="reflect-msg" style="display:none">✅ Refleksi tersimpan / Reflection saved!</p>
+    </div>
+  </section>
+
+  <!-- === SCREEN 10: SERTIFIKAT === -->
+  <section class="screen" id="screen-10">
+    <div class="certificate" id="certificate">
+      <div class="cert-border">
+        <div class="cert-inner">
+          <div class="cert-header">
+            <div class="cert-seal">🛡️</div>
+            <div class="cert-headtext">
+              <div class="cert-school">SMP NEGERI 19 KOTA BEKASI</div>
+              <div class="cert-schsub">TIM MGMP Informatika · Tahun Ajaran 2026 / 2027</div>
+            </div>
+          </div>
+          <h1 class="cert-title">SERTIFIKAT DETEKTIF DIGITAL</h1>
+          <div class="cert-subtitle">Digital Detective Certificate</div>
+          <p class="cert-line">Diberikan kepada / Awarded to:</p>
+          <div class="cert-name" id="cert-name">—</div>
+          <p class="cert-line">dari / from <b id="cert-group">—</b></p>
+          <p class="cert-body">
+            atas keberhasilan menyelesaikan seluruh 5 misi dalam LKPD Interaktif
+            <b>"Detektif Dunia Maya"</b> pada materi <b>Jejak Digital, Privasi, Keamanan, dan Anti-Phishing</b>
+            dengan predikat:
+          </p>
+          <div class="cert-badge" id="cert-badge">🏆 Detektif Utama</div>
+          <div class="cert-score" id="cert-score">Skor: 0 / 520</div>
+          <div class="cert-foot">
+            <div class="cert-sign">
+              <div class="cert-sign-line"></div>
+              <div>Tim MGMP Informatika</div>
+              <div class="cert-sign-sub">SMP Negeri 19 Kota Bekasi</div>
+            </div>
+            <div class="cert-date" id="cert-date">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pw-actions no-print">
+      <button class="btn btn-primary" id="btn-print-cert">🖨️ Cetak Sertifikat / Print Certificate</button>
+      <button class="btn btn-ghost" id="btn-back-home">🏠 Kembali ke Awal / Home</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  LKPD Informatika Kelas 8 · Jejak Digital, Privasi, Keamanan, dan Anti-Phishing · © 2026 SMP Negeri 19 Kota Bekasi
+</footer>
+
+<!-- === MODAL: Feedback & Materi === -->
+<div class="modal-overlay" id="modal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <h3 id="modal-title">Umpan Balik / Feedback</h3>
+      <button class="modal-close" id="modal-close" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-primary" id="modal-ok">OK, Mengerti!</button>
+    </div>
+  </div>
+</div>
+
+<!-- === CONFETTI CANVAS === -->
+<div class="confetti-layer" id="confetti-layer" aria-hidden="true"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
